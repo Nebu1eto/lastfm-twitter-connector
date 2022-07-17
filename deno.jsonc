@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "lib": ["ES2021"],
+    "strict": true,
+    
+  },
+  "importMap": "import_map.json",
+  "lint": {
+    "files": {
+      "include": [
+        "src/"
+      ],
+      "exclude": [
+        "src/testdata/"
+      ]
+    },
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "ban-untagged-todo"
+      ],
+      "exclude": [
+        "no-unused-vars"
+      ]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": [
+        "src/"
+      ]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 120,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  }
+}
