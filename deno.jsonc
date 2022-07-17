@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": false,
-    "lib": ["ES2021"],
-    "strict": true,
-    
+    "strict": true
   },
   "importMap": "import_map.json",
   "lint": {

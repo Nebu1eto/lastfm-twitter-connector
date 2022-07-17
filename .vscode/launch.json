@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "request": "launch",
+      "name": "Run / Debug Program",
+      "type": "pwa-node",
+      "program": "${workspaceFolder}/src/index.ts",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "/opt/homebrew/bin/deno",
+      "runtimeArgs": [
+        "run",
+        "--config",
+        "deno.jsonc",
+        "--inspect",
+        "--allow-all"
+      ],
+      "outputCapture": "std",
+      "attachSimplePort": 9229
+    }
+  ]
+}
