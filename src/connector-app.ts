@@ -1,4 +1,5 @@
 import { Configuration } from './models/config.ts';
+import { Song } from './models/lastfm/song.ts';
 import { tryCatch, tryCatchAsync } from './utils/try-catch.ts';
 
 import { ensureFile } from 'fs';
@@ -6,6 +7,12 @@ import { ConsoleStream, Logger, nameToLevel } from 'optic';
 import { TokenReplacer } from 'optic/formatters';
 import { PropertyRedaction } from 'optic/transformers/propertyRedaction';
 import { parse as parseToml } from 'toml';
+
+export class ConnectorAppError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
 
 export class ConnectorApp {
   private readonly debug: boolean;
@@ -62,10 +69,25 @@ export class ConnectorApp {
       return false;
     }
 
+    // Remove Type Signature, and Apply New Configuration Interface
+    this.config = config as unknown as Configuration;
     return true;
   }
 
-  async run(): Promise<void> {
-    // TODO(Hazealign): To be Implemented...
+  run(): Promise<void> {
+    this.logger.info('Starting Application.');
+    if (!this.config) {
+      throw new ConnectorAppError('Configuration is not initialized. Closing...');
+    }
+
+    const song: Song | undefined = undefined;
+
+    while (true) {
+      // 1. Fetch Last.fm API and Get current playing song.
+
+      // 2. Upload Tweet to Twitter.
+
+      // 3. Sleep for a while.
+    }
   }
 }

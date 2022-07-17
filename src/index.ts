@@ -31,7 +31,12 @@ async function main() {
     Deno.exit(1);
   }
 
-  await application.run();
+  try {
+    await application.run();
+  } catch (err) {
+    console.error(err);
+    Deno.exit(1);
+  }
 }
 
 if (import.meta.main) {
