@@ -1,0 +1,15 @@
+[last_fm]
+username=""
+api_key=""
+
+[twitter]
+api_key=""
+api_key_secret=""
+access_token=""
+access_token_secret=""
+
+[config]
+# daily_update=true
+# daily_update_hour=00
+# daily_update_minute=00
+nowplaying_update=true
