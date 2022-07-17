@@ -36,7 +36,7 @@ export async function getUserInfo(
   }
 
   // check xlarge image is exists
-  const imageUrlItem = data.user.image.find((item: Record<string, string>) => item.size == 'xlarge');
+  const imageUrlItem = data.user.image.find((elem: Record<string, string>) => elem.size === 'extralarge');
 
   return {
     country: data.user.country,
@@ -46,7 +46,7 @@ export async function getUserInfo(
     realname: data.user.realname,
     playlists: parseInt(data.user.playlists),
     bootstrap: parseInt(data.user.bootstrap),
-    imageUrl: imageUrlItem?.text,
+    imageUrl: imageUrlItem ? imageUrlItem['#text'] : undefined,
     registeredAt: new Date(data.user.registered.unixtime * 1000),
     url: data.user.url,
     gender: data.user.gender,
@@ -86,10 +86,9 @@ export async function getRecentTracks(
     const name = item.name;
     const artist = item.artist['#text'];
     const album = item.album['#text'];
-    const albumArtUrlItem = item.image.find((item: Record<string, string>) => item.size == 'xlarge');
-    const albumArtUrl = albumArtUrlItem?.text;
+    const albumArtUrlItem = item.image.find((elem: Record<string, string>) => elem.size === 'extralarge');
+    const albumArtUrl = albumArtUrlItem ? albumArtUrlItem['#text'] : undefined;
     const url = item.url;
-    const playedAt = new Date(parseInt(item.date.uts) * 1000);
     const nowPlaying = item['@attr'] && item['@attr']['nowplaying'];
 
     result.push({
@@ -98,7 +97,6 @@ export async function getRecentTracks(
       album,
       albumArtUrl,
       url,
-      playedAt,
       nowPlaying,
     });
   }

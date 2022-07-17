@@ -10,10 +10,18 @@
       "runtimeExecutable": "/opt/homebrew/bin/deno",
       "runtimeArgs": [
         "run",
+        "--allow-net",
+        "--allow-read",
         "--config",
         "deno.jsonc",
         "--inspect",
         "--allow-all"
+      ],
+      "args": [
+        "-d", 
+        "-l", 
+        "Debug", 
+        "config.toml"
       ],
       "outputCapture": "std",
       "attachSimplePort": 9229

@@ -10,7 +10,9 @@
     "toml": "https://deno.land/std@0.148.0/encoding/toml.ts",
     "tweet-update": "https://deno.land/x/twitter_api_client@v0.2.2/api_v1/tweets/update.ts",
     "ky": "https://cdn.skypack.dev/ky@0.31.0?dts",
-
+    "oauth-fetch": "https://kamekyame.github.io/deno_tools/http/mod.ts",
+    "hmac": "https://denopkg.com/chiefbiiko/hmac/mod.ts",
+    
     "testing/asserts": "https://deno.land/std@0.148.0/testing/asserts.ts" 
   }
 }

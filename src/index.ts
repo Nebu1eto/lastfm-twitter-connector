@@ -21,9 +21,6 @@ async function main() {
     .arguments('<config-file:string>')
     .parse(Deno.args);
 
-  console.log(options);
-  console.log(args);
-
   const application = new ConnectorApp(options.debug, options.logLevel);
   const result = await application.initialize(args[0]);
 

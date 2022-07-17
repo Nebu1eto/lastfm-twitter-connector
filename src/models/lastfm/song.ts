@@ -4,6 +4,5 @@ export interface Song {
   album: string;
   albumArtUrl?: string; // I'll take xlarge only
   url: string;
-  playedAt: Date;
   nowPlaying: boolean;
 }
