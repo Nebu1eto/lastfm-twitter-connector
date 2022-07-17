@@ -1,5 +1,6 @@
 {
   "imports": {
-    "./": "./"
+    "cliffy/command": "https://deno.land/x/cliffy@v0.24.2/command/mod.ts",
+    "dedent": "https://x.kite.run/lib/dedent.ts"
   }
 }
