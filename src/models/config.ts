@@ -1,7 +1,6 @@
 export interface LastFmConfig {
   username: string;
   api_key: string;
-  shared_secret: string;
 }
 
 export interface TwitterConfig {

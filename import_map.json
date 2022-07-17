@@ -9,6 +9,8 @@
     "fs": "https://deno.land/std@0.148.0/fs/mod.ts",
     "toml": "https://deno.land/std@0.148.0/encoding/toml.ts",
     "tweet-update": "https://deno.land/x/twitter_api_client@v0.2.2/api_v1/tweets/update.ts",
-    "ky": "https://cdn.skypack.dev/ky@0.31.0?dts"
+    "ky": "https://cdn.skypack.dev/ky@0.31.0?dts",
+
+    "testing/asserts": "https://deno.land/std@0.148.0/testing/asserts.ts" 
   }
 }

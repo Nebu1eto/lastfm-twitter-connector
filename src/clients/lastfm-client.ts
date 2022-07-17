@@ -12,7 +12,7 @@ export class LastFmClientError extends Error {
 const BASE_ENDPOINT = 'https://ws.audioscrobbler.com/2.0/';
 
 // get last.fm user information
-export async function get_user_info(
+export async function getUserInfo(
   username: string,
   apiKey: string,
 ): Promise<User> {
@@ -56,7 +56,7 @@ export async function get_user_info(
 
 // get recent scrobbled track from last.fm
 // it contains nowplaying track
-export async function get_recent_tracks(
+export async function getRecentTracks(
   username: string,
   apiKey: string,
   limit: number,
@@ -89,8 +89,8 @@ export async function get_recent_tracks(
     const albumArtUrlItem = item.image.find((item: Record<string, string>) => item.size == 'xlarge');
     const albumArtUrl = albumArtUrlItem?.text;
     const url = item.url;
-    const playedAt = new Date(item.date.uts * 1000);
-    const nowPlaying = item['nowplaying'] === undefined || item['nowplaying'] === null;
+    const playedAt = new Date(parseInt(item.date.uts) * 1000);
+    const nowPlaying = item['@attr'] && item['@attr']['nowplaying'];
 
     result.push({
       name,
@@ -107,11 +107,11 @@ export async function get_recent_tracks(
 }
 
 // get now playing track from last.fm
-export async function get_nowplaying_track(
+export async function getNowPlayingTrack(
   username: string,
   apiKey: string,
 ): Promise<Song | undefined> {
-  const candidates = await get_recent_tracks(username, apiKey, 1);
+  const candidates = await getRecentTracks(username, apiKey, 1);
 
   if (candidates.length == 0) {
     return undefined;
