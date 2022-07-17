@@ -1,8 +1,10 @@
 import { Command, EnumType } from 'cliffy/command';
 import { dedent } from 'dedent';
 
+import { ConnectorApp } from './connector-app.ts';
+
 async function main() {
-  return await new Command()
+  const { options, args } = await new Command()
     .name('lastfm-twitter-connector')
     .version('development-stage')
     .description(
@@ -11,14 +13,25 @@ async function main() {
         Connect Last.fm and Twitter. Upload Periodic Scrobble Status and #NowPlaying Tweets.
       `),
     )
-    .type('log-level', new EnumType(['debug', 'info', 'warn', 'error']))
+    .type('log-level', new EnumType(['Trace', 'Debug', 'Info', 'Warn', 'Error', 'Critical']))
     .option('-d, --debug', 'Enable debug output.', { default: false as const })
     .option('-l, --log-level <level:log-level>', 'Set log level.', {
-      default: 'info' as const,
+      default: 'Info' as const,
     })
     .arguments('<config-file:string>')
-    .action((options, ...args) => {})
     .parse(Deno.args);
+
+  console.log(options);
+  console.log(args);
+
+  const application = new ConnectorApp(options.debug, options.logLevel);
+  const result = await application.initialize(args[0]);
+
+  if (!result) {
+    Deno.exit(1);
+  }
+
+  await application.run();
 }
 
 if (import.meta.main) {
