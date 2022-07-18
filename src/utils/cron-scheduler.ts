@@ -14,8 +14,7 @@ enum TIME_PART {
 
 const schedules = new Map<string, Array<JobType>>();
 
-// let schedulerTimeIntervalID: ReturnType<typeof setInterval> = 0;
-let shouldStopRunningScheduler = false;
+let shouldStopRunningScheduler = true;
 
 export const cron = (schedule = '', job: JobType) => {
   const jobs = schedules.has(schedule) ? [...(schedules.get(schedule) || []), job] : [job];

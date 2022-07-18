@@ -15,6 +15,8 @@ export interface AppConfig {
   daily_update_hour: number;
   daily_update_minute: number;
   nowplaying_update: boolean;
+  nowplaying_update_to_twitter: boolean;
+  nowplaying_update_to_discord: boolean;
 }
 
 export interface Configuration {
