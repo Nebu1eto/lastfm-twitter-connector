@@ -2,11 +2,10 @@ import { getNowPlayingTrack } from '../../clients/lastfm-client.ts';
 import { Configuration } from '../../models/config.ts';
 import { Song } from '../../models/lastfm/song.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
-import { TwitterImage } from '../../models/twitter/image.ts';
-import { uploadImage } from '../../clients/twitter-client.ts';
+import { uploadSongToTwitter } from './twitter.ts';
 
 import { Logger } from 'optic';
-import { statusUpdate } from 'tweet-update';
+import { updateSongToDiscord } from './discord.ts';
 
 // Simple Singleton Based #NowPlaying Track Store
 class PreviousNowPlayingStore {
@@ -30,50 +29,6 @@ class PreviousNowPlayingStore {
   getSong(): Song | undefined {
     return this.song;
   }
-}
-
-async function uploadSongToTwitter(
-  config: Configuration,
-  logger: Logger,
-  track: Song,
-  // deno-lint-ignore no-explicit-any
-): Promise<any> {
-  const oauthInfo = {
-    consumerKey: config.twitter.api_key,
-    consumerSecret: config.twitter.api_key_secret,
-    token: config.twitter.access_token,
-    tokenSecret: config.twitter.access_token_secret,
-  };
-
-  const tweetContent = '#NowPlaying from last.fm\n\n' +
-    `🎵 ${track.name}\n` +
-    `🎤 ${track.artist}\n` +
-    `💿 ${track.album}\n\n` +
-    track.url;
-
-  let twitterImage: TwitterImage | undefined = undefined;
-  if (track.albumArtUrl) {
-    const [imageErr, imageResp] = await tryCatchAsync(uploadImage(track.albumArtUrl, oauthInfo));
-
-    if (imageErr) {
-      console.error(imageErr);
-      logger.error(`Failed to upload image to Twitter. ${imageErr}`);
-    } else {
-      twitterImage = imageResp;
-    }
-  }
-  logger.debug(JSON.stringify(twitterImage, undefined, 2));
-
-  const [tweetErr, response] = await tryCatchAsync(statusUpdate(oauthInfo, {
-    status: tweetContent,
-    media_ids: twitterImage?.media_id_string ? [twitterImage?.media_id_string] : [],
-  }));
-
-  if (tweetErr) {
-    logger.error(`Failed to tweet. ${tweetErr}`);
-  }
-
-  return response;
 }
 
 export async function checkNowPlaying(config: Configuration, logger: Logger) {
@@ -104,14 +59,30 @@ export async function checkNowPlaying(config: Configuration, logger: Logger) {
   store.setSong(currentTrack);
 
   // 3. Upload Tweet to Twitter.
-  const [uploadError] = await tryCatchAsync(uploadSongToTwitter(config, logger, currentTrack));
+  if (config.config.nowplaying_update_to_twitter) {
+    const [uploadError] = await tryCatchAsync(uploadSongToTwitter(config, logger, currentTrack));
 
-  if (uploadError) {
-    logger.error(`Failed to upload song to Twitter. ${uploadError}`);
-    logger.error(uploadError);
-    return false;
+    if (uploadError) {
+      logger.error(`Failed to upload song to Twitter. ${uploadError}`);
+      logger.error(uploadError);
+      return false;
+    }
+
+    logger.info('Finished to upload #NowPlaying to Twitter.');
   }
 
-  logger.info('Finished to upload #NowPlaying to Twitter.');
+  // 4. Set Discord Status.
+  if (config.config.nowplaying_update_to_discord) {
+    const [discordError] = await tryCatchAsync(updateSongToDiscord(config, logger, currentTrack));
+
+    if (discordError) {
+      logger.error(`Failed to update song to Discord. ${discordError}`);
+      logger.error(discordError);
+      return false;
+    }
+
+    logger.info('Finished to update current playing track to Discord.');
+  }
+
   return true;
 }
