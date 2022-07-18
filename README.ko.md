@@ -4,7 +4,7 @@
 
 ## 사용법
 
-설정 파일을 `config.toml`에 작성한 뒤, `deno run --allow-net --allow-read --config deno.jsonc ./src/index.ts config.toml` 커맨드를 입력해서 실행할 수 있습니다. 추후엔 컴파일된 바이너리를 제공하는걸 목표로 하고 있습니다.
+설정 파일을 `config.toml`에 작성한 뒤, `deno run --unstable --allow-env --allow-net --allow-read --allow-write --config deno.jsonc ./src/index.ts config.toml` 커맨드를 입력해서 실행할 수 있습니다. 추후엔 컴파일된 바이너리를 제공하는걸 목표로 하고 있습니다.
 
 ## 설정 파일
 

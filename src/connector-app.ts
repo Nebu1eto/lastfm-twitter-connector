@@ -1,13 +1,13 @@
 import { Configuration } from './models/config.ts';
 import { tryCatch, tryCatchAsync } from './utils/try-catch.ts';
+import { cron, start } from './utils/cron-scheduler.ts';
+import { checkNowPlaying } from './features/now-playing/index.ts';
 
 import { ensureFile } from 'fs';
 import { ConsoleStream, Level, Logger, nameToLevel } from 'optic';
 import { TokenReplacer } from 'optic/formatters';
 import { PropertyRedaction } from 'optic/transformers/propertyRedaction';
 import { parse as parseToml } from 'toml';
-import { everyMinute, start } from './utils/cron-scheduler.ts';
-import { checkNowPlaying } from './features/now-playing/index.ts';
 
 export class ConnectorAppError extends Error {
   constructor(message: string) {
@@ -77,7 +77,7 @@ export class ConnectorApp {
 
     if (this.config!.config.nowplaying_update) {
       this.logger.info('NowPlaying Update is enabled.');
-      everyMinute(() => {
+      cron('*/5 * * * * *', () => {
         return checkNowPlaying(this.config!, this.logger);
       });
     }

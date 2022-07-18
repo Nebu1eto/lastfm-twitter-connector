@@ -10,6 +10,11 @@ export interface TwitterConfig {
   access_token_secret: string;
 }
 
+export interface DiscordConfig {
+  application_id: string;
+  public_key: string;
+}
+
 export interface AppConfig {
   daily_update: boolean;
   daily_update_hour: number;
@@ -22,5 +27,6 @@ export interface AppConfig {
 export interface Configuration {
   last_fm: LastFmConfig;
   twitter: TwitterConfig;
+  discord: DiscordConfig;
   config: AppConfig;
 }

@@ -132,7 +132,7 @@ const runScheduler = async () => {
 
     await executeJobs();
 
-    const diff = new Date().getTime() - nextSecondTime.getTime();
+    const diff = nextSecondTime.getTime() - new Date().getTime();
     await sleep(diff > 0 ? diff : 0);
   }
 };

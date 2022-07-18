@@ -6,7 +6,7 @@ This program checks my now playing music from [last.fm](https://last.fm) every m
 
 ## Usage
 
-Write configuration file in `config.toml`, `deno run --allow-net --allow-read --config deno.jsonc ./src/index.ts config.toml` command will run this program. In the future, I aim to provide pre-compiled binary.
+Write configuration file in `config.toml`, `deno run --unstable --allow-env --allow-net --allow-read --allow-write --config deno.jsonc ./src/index.ts config.toml` command will run this program. In the future, I aim to provide pre-compiled binary.
 
 ## Configuration File
 
