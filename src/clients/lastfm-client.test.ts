@@ -20,5 +20,6 @@ Deno.test('getRecentTracks - Get recent tracks correctly.', async () => {
 
   // fetch tracks and check it is correct.
   const tracks = await getRecentTracks('Hazealign', LASTFM_API_KEY, 3);
-  assertEquals(tracks.length, 3);
+  // when I'm playing music, tracks.length can be 4.
+  assertEquals(tracks.length === 3 || tracks.length === 4, true);
 });
