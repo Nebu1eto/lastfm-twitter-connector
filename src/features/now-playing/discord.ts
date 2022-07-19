@@ -2,8 +2,8 @@ import { Configuration } from '../../models/config.ts';
 import { Song } from '../../models/lastfm/song.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
 
-import { Logger } from 'optic';
 import { Client } from 'discord-rpc';
+import { Logger } from 'optic';
 
 class DiscordClientStore {
   private static instance: DiscordClientStore;

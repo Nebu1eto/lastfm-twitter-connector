@@ -1,7 +1,7 @@
-import { Configuration } from './models/config.ts';
-import { tryCatch, tryCatchAsync } from './utils/try-catch.ts';
-import { cron, start } from './utils/cron-scheduler.ts';
 import { checkNowPlaying } from './features/now-playing/index.ts';
+import { Configuration } from './models/config.ts';
+import { cron, start } from './utils/cron-scheduler.ts';
+import { tryCatch, tryCatchAsync } from './utils/try-catch.ts';
 
 import { ensureFile } from 'fs';
 import { ConsoleStream, Level, Logger, nameToLevel } from 'optic';

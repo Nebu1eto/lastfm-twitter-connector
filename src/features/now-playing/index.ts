@@ -2,10 +2,10 @@ import { getNowPlayingTrack } from '../../clients/lastfm-client.ts';
 import { Configuration } from '../../models/config.ts';
 import { Song } from '../../models/lastfm/song.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
+import { updateSongToDiscord } from './discord.ts';
 import { uploadSongToTwitter } from './twitter.ts';
 
 import { Logger } from 'optic';
-import { updateSongToDiscord } from './discord.ts';
 
 // Simple Singleton Based #NowPlaying Track Store
 class PreviousNowPlayingStore {

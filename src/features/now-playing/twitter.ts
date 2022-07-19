@@ -1,8 +1,8 @@
+import { uploadImage } from '../../clients/twitter-client.ts';
 import { Configuration } from '../../models/config.ts';
 import { Song } from '../../models/lastfm/song.ts';
 import { TwitterImage } from '../../models/twitter/image.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
-import { uploadImage } from '../../clients/twitter-client.ts';
 
 import { Logger } from 'optic';
 import { statusUpdate } from 'tweet-update';

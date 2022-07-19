@@ -1,4 +1,5 @@
 import { getRecentTracks, getUserInfo } from './lastfm-client.ts';
+
 import { assert, assertEquals } from 'testing/asserts';
 
 const LASTFM_API_KEY = Deno.env.get('LASTFM_API_KEY');
