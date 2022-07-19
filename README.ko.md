@@ -27,4 +27,4 @@ Git 저장소를 복제한 후, `pre-commit install`을 통해 Git Hook이 제�
  - [ ] 더 많은 경우에 대한 테스트 케이스 추가
  - [ ] 일간, 주간, 월간 등 주기적 리포트 추가
  - [ ] 더 많은 설정 제공
- - [ ] CI를 통해 테스트 및 `deno compile`을 통한 배포 자동화
+ - [x] CI를 통해 테스트 및 `deno compile`을 통한 배포 자동화

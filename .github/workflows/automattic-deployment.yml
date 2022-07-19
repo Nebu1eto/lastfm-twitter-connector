@@ -1,0 +1,66 @@
+name: 'Publish Releases'
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Repo
+      uses: actions/checkout@v3
+
+    - name: Get branch names
+      uses: tj-actions/branch-names@v2.1
+      id: branch-names
+
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: ${{ matrix.deno }}
+
+    - name: Create Dist Folder
+      run: mkdir dist
+
+    - name: Compile Windows x64 Binary
+      run: deno compile 
+                --unstable --allow-env --allow-net --allow-read --allow-write 
+                --config deno.jsonc --import-map ./import_map.json 
+                --target x86_64-pc-windows-msvc
+                --output ./dist/lastfm-twitter-connector-windows-msvc-x86_64 
+                ./src/index.ts
+    
+    - name: Compile Linux x64 Binary
+      run: deno compile 
+                --unstable --allow-env --allow-net --allow-read --allow-write 
+                --config deno.jsonc --import-map ./import_map.json 
+                --target x86_64-unknown-linux-gnu
+                --output ./dist/lastfm-twitter-connector-linux-gnu-x86_64 
+                ./src/index.ts
+
+    - name: Compile macOS x64 Binary
+      run: deno compile 
+                --unstable --allow-env --allow-net --allow-read --allow-write 
+                --config deno.jsonc --import-map ./import_map.json 
+                --target x86_64-apple-darwin
+                --output ./dist/lastfm-twitter-connector-apple-darwin-x86_64 
+                ./src/index.ts
+
+    - name: Compile macOS Aarch64 Binary
+      run: deno compile 
+                --unstable --allow-env --allow-net --allow-read --allow-write 
+                --config deno.jsonc --import-map ./import_map.json 
+                --target aarch64-apple-darwin
+                --output ./dist/lastfm-twitter-connector-apple-darwin-aarch64 
+                ./src/index.ts
+
+    - name: Create a Release 
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GH_TOKEN }}"
+        prerelease: ${{ contains(steps.branch-names.outputs.tag, '-beta') }}
+        title: Release of ${{ steps.branch-names.outputs.tag }}
+        files: dist/*

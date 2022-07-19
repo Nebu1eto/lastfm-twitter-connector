@@ -1,0 +1,28 @@
+name: 'Check Format and Lint.'
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        deno: [v1.x]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          # We check only format and lint, so we'll use specific version of deno and ubuntu.
+          deno-version: ${{ matrix.deno }}
+
+      - name: Check code is formatted.
+        run: deno fmt --check --config ./deno.jsonc --unstable
+
+      - name: Check code lint.
+        run: deno lint --config ./deno.jsonc --unstable

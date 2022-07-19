@@ -1,0 +1,27 @@
+name: 'Test Code'
+
+on: [push, pull_request]
+
+env:
+  LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        deno: [v1.x]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno }}
+
+      - name: Testing Code.
+        run: deno test --allow-env --allow-net --config ./deno.jsonc --unstable

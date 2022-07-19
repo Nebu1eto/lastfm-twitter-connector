@@ -29,4 +29,4 @@ When you clone the git repository, please run `pre-commit install`. This command
  - [ ] Implement More Test Cases
  - [ ] Implement Reports for Daily, Weekly, Monthly
  - [ ] Add More Configurations
- - [ ] Continuous Integration(Test) and Continuous Deployment(with `deno compile`)
+ - [x] Continuous Integration(Test) and Continuous Deployment(with `deno compile`)
