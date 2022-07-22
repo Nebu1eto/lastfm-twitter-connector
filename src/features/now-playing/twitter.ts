@@ -1,6 +1,6 @@
 import { uploadImage } from '../../clients/twitter-client.ts';
 import { Configuration } from '../../models/config.ts';
-import { Song } from '../../models/lastfm/song.ts';
+import { formatSongToString, Song } from '../../models/lastfm/song.ts';
 import { TwitterImage } from '../../models/twitter/image.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
 
@@ -19,14 +19,16 @@ export async function uploadSongToTwitter(
     tokenSecret: config.twitter.access_token_secret,
   };
 
-  const tweetContent = '#NowPlaying from last.fm\n\n' +
-    `🎵 ${track.name}\n` +
-    `🎤 ${track.artist}\n` +
-    `💿 ${track.album}\n\n` +
-    track.url;
+  const tweetContent = formatSongToString(
+    track,
+    config.app.nowplaying.twitter?.template ??
+      '#NowPlaying from last.fm\n\n🎵 {track}\n🎤 {artist}\n💿 {album}\n\n{url}',
+  );
+
+  const doUploadImage = config.app.nowplaying.twitter?.upload_image ?? true;
 
   let twitterImage: TwitterImage | undefined = undefined;
-  if (track.albumArtUrl) {
+  if (doUploadImage && track.albumArtUrl !== undefined) {
     const [imageErr, imageResp] = await tryCatchAsync(uploadImage(track.albumArtUrl, oauthInfo));
 
     if (imageErr) {
@@ -41,7 +43,9 @@ export async function uploadSongToTwitter(
 
   const [tweetErr] = await tryCatchAsync(statusUpdate(oauthInfo, {
     status: tweetContent,
-    media_ids: twitterImage?.media_id_string ? [twitterImage?.media_id_string] : [],
+    media_ids: (
+      twitterImage?.media_id_string !== undefined ? [twitterImage?.media_id_string] : []
+    ),
   }));
 
   if (tweetErr) {

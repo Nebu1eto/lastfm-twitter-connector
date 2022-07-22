@@ -15,25 +15,44 @@ export interface DiscordConfig {
   public_key: string;
 }
 
-export interface AppConfig {
-  daily_update: boolean;
-  daily_update_hour: number;
-  daily_update_minute: number;
-
-  nowplaying_update: boolean;
+// you can use {track}, {album}, {artist}, {url}, {albumArtUrl} in the template string.
+// if you don't implicitly add enabled = true in the config, feature will not be enabled in default.
+export interface NowPlayingConfig {
+  enabled: boolean;
 
   // default is "*/5 * * * * *", which means every 5 seconds.
   // this program's crontab supports seconds-level precision.
   // recommended to check nowplaying at least every 10 seconds.
-  nowplaying_update_crontab?: string;
+  fetch_crontab?: string;
 
-  nowplaying_update_to_twitter: boolean;
-  nowplaying_update_to_discord: boolean;
+  twitter?: {
+    enabled: boolean;
+    // if you don't input a template, default template will be used.
+    template?: string;
+    upload_image?: boolean; // default is true.
+  };
+
+  discord?: {
+    enabled: boolean;
+    // if you don't input a template, default template will be used.
+    template?: {
+      detail?: string;
+      state?: string;
+    };
+  };
+}
+
+export interface AppConfig {
+  // daily_update: boolean;
+  // daily_update_hour: number;
+  // daily_update_minute: number;
+
+  nowplaying: NowPlayingConfig;
 }
 
 export interface Configuration {
   last_fm: LastFmConfig;
   twitter: TwitterConfig;
   discord: DiscordConfig;
-  config: AppConfig;
+  app: AppConfig;
 }

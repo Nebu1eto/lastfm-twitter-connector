@@ -75,10 +75,10 @@ export class ConnectorApp {
     // Remove Type Signature, and Apply New Configuration Interface
     this.config = config as unknown as Configuration;
 
-    if (this.config!.config.nowplaying_update) {
+    if (this.config?.app.nowplaying.enabled ?? false) {
       this.logger.info('NowPlaying Update is enabled.');
 
-      const nowplayingCrontab = this.config.config.nowplaying_update_crontab || '*/5 * * * * *';
+      const nowplayingCrontab = this.config.app.nowplaying.fetch_crontab || '*/5 * * * * *';
       cron(nowplayingCrontab, () => {
         return checkNowPlaying(this.config!, this.logger);
       });

@@ -12,10 +12,17 @@ access_token_secret=""
 application_id=""
 public_key=""
 
-[config]
-# daily_update=true
-# daily_update_hour=00
-# daily_update_minute=00
-nowplaying_update=true
-nowplaying_update_to_twitter=false
-nowplaying_update_to_discord=true
+[app.nowplaying]
+enabled=true
+
+[app.nowplaying.twitter]
+enabled=true
+upload_image=true
+template=""
+
+[app.nowplaying.discord]
+enabled=true
+
+[app.nowplaying.discord.template]
+state="Playing {track}..."
+detail="{artist} - {album}"
