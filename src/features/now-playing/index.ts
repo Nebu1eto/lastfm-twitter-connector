@@ -58,8 +58,10 @@ export async function checkNowPlaying(config: Configuration, logger: Logger) {
 
   store.setSong(currentTrack);
 
+  const twitterEnabled = config.app.nowplaying.twitter?.enabled ?? false;
+
   // 3. Upload Tweet to Twitter.
-  if (config.config.nowplaying_update_to_twitter) {
+  if (twitterEnabled) {
     const [uploadError] = await tryCatchAsync(uploadSongToTwitter(config, logger, currentTrack));
 
     if (uploadError) {
@@ -71,8 +73,10 @@ export async function checkNowPlaying(config: Configuration, logger: Logger) {
     logger.info('Finished to upload #NowPlaying to Twitter.');
   }
 
+  const discordEnabled = config.app.nowplaying.discord?.enabled ?? false;
+
   // 4. Set Discord Status.
-  if (config.config.nowplaying_update_to_discord) {
+  if (discordEnabled) {
     const [discordError] = await tryCatchAsync(updateSongToDiscord(config, logger, currentTrack));
 
     if (discordError) {

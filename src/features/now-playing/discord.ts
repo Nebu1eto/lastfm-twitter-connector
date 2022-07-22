@@ -1,5 +1,5 @@
 import { Configuration } from '../../models/config.ts';
-import { Song } from '../../models/lastfm/song.ts';
+import { formatSongToString, Song } from '../../models/lastfm/song.ts';
 import { tryCatchAsync } from '../../utils/try-catch.ts';
 
 import { Client } from 'discord-rpc';
@@ -47,9 +47,19 @@ export async function updateSongToDiscord(
     store.setClient(client);
   }
 
+  // set default string and format it.
+  const details = formatSongToString(
+    track,
+    config.app.nowplaying.discord?.template?.detail ?? '🎵 Playing \n{track}',
+  );
+  const state = formatSongToString(
+    track,
+    config.app.nowplaying.discord?.template?.state ?? '🎤 {artist} | 💿 {album}',
+  );
+
   const [activityErr] = await tryCatchAsync(client.setActivity({
-    details: `🎵 Playing \n${track.name}`,
-    state: `🎤 ${track.artist} | 💿 ${track.album}`,
+    details: details,
+    state: state,
     assets: {
       large_image: track.albumArtUrl,
       large_text: track.album,
