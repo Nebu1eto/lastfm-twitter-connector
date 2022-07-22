@@ -4,11 +4,10 @@ import { assertEquals } from 'testing/asserts';
 
 const test = (() => {
   let counter = 0;
-  return (description: string) =>
-    (params: string, date: Date) => {
-      console.log(`${++counter} - ${description}`);
-      assertEquals(validate(params, date).didMatch, true);
-    };
+  return (description: string) => (params: string, date: Date) => {
+    console.log(`${++counter} - ${description}`);
+    assertEquals(validate(params, date).didMatch, true);
+  };
 })();
 
 Deno.test('Cron string parser', () => {
