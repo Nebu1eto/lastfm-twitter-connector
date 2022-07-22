@@ -19,7 +19,14 @@ export interface AppConfig {
   daily_update: boolean;
   daily_update_hour: number;
   daily_update_minute: number;
+
   nowplaying_update: boolean;
+
+  // default is "*/5 * * * * *", which means every 5 seconds.
+  // this program's crontab supports seconds-level precision.
+  // recommended to check nowplaying at least every 10 seconds.
+  nowplaying_update_crontab?: string;
+
   nowplaying_update_to_twitter: boolean;
   nowplaying_update_to_discord: boolean;
 }
