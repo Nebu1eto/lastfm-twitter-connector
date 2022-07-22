@@ -77,7 +77,9 @@ export class ConnectorApp {
 
     if (this.config!.config.nowplaying_update) {
       this.logger.info('NowPlaying Update is enabled.');
-      cron('*/5 * * * * *', () => {
+
+      const nowplayingCrontab = this.config.config.nowplaying_update_crontab || '*/5 * * * * *';
+      cron(nowplayingCrontab, () => {
         return checkNowPlaying(this.config!, this.logger);
       });
     }

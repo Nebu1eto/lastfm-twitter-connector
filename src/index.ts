@@ -6,7 +6,7 @@ import { ConnectorApp } from './connector-app.ts';
 async function main() {
   const { options, args } = await new Command()
     .name('lastfm-twitter-connector')
-    .version('development-stage')
+    .version('v1.0.0-beta1')
     .description(
       dedent(`
         [Last.fm ↔  Twitter Connector]\n
