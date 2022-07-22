@@ -3,4 +3,6 @@ repos:
     rev: '0.1.0'
     hooks:
      - id: deno-fmt-check
+       args: ["--config", "./deno.jsonc", "--unstable"]
      - id: deno-lint
+       args: ["--config", "./deno.jsonc", "--unstable"]
